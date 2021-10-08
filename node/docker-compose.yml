@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  ethereum_node:
+    container_name: ethereum_node
+    build:
+      context: .
+      dockerfile: .Dockerfile
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/ethereumNode
+      NODE_ENV: development
+      PORT: 4000
+    ports:
+      - "4000:4000"
+  db:
+    container_name: postgres
+    image: postgres:10.4
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./sql/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ethereumNode
+  adminer:
+    image: adminer
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+volumes:
+  db-data:

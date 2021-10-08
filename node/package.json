@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node ./index.ts",
-    "dev": "ts-node-dev --respawn ./index.ts"
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node-dev --respawn src/index.ts",
+    "up": "docker-compose up --build -d"
   },
   "author": "",
   "license": "ISC",

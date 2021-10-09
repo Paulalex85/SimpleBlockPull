@@ -21,9 +21,19 @@ net.createServer(() => {
 
         provider.on('block', (blockNumber: number) => {
             provider.getBlock(blockNumber).then((block: ethers.providers.Block) => {
-                const text = 'INSERT INTO block (number, block_timestamp, gasUsed) VALUES ($1, $2, $3)';
-                const values = [block.number, new Date(block.timestamp), BigInt(block.gasUsed.toString())];
-                client.query(text, values)
+                const queryBlock = 'INSERT INTO block (number, block_timestamp, gasUsed) VALUES ($1, $2, $3)';
+                const queryBlockValues = [block.number, new Date(block.timestamp), BigInt(block.gasUsed.toString())];
+                let queryTransaction = 'INSERT INTO block_transaction (hash, block_number) VALUES ';
+
+                for (let i = 0; i < block.transactions.length; i++) {
+                    queryTransaction += '(\'' + block.transactions[i] + '\', ' + blockNumber + ')';
+                    if (i < block.transactions.length - 1) {
+                        queryTransaction += ', ';
+                    }
+                }
+
+                client.query(queryBlock, queryBlockValues)
+                    .then(() => client.query(queryTransaction))
                     .then(() => console.log('Block number ' + block.number + ' saved'))
                     .catch(e => console.error(e.stack));
             });

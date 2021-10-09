@@ -8,7 +8,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/ethereumNode
+      DATABASE_URL: postgres://root:password@db:5432/ethereumNode
       NODE_ENV: development
       PORT: 4000
     ports:

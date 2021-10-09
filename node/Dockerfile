@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:14-alpine
 
 RUN mkdir -p /usr/app
 WORKDIR /usr/app
@@ -7,4 +7,4 @@ COPY src ./src
 RUN npm install
 
 EXPOSE 4000
-CMD  npm start
+CMD npm start

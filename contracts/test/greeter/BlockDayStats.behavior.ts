@@ -14,7 +14,5 @@ export function shouldSaveDailyStats(): void {
     stat = await this.blockDayStats.connect(this.signers.admin).getStat(dayAdded);
     expect(stat.totalGasFees).to.equal(BigNumber.from(gasValue));
     expect(stat.numberBlocks).to.equal(BigNumber.from(nbBlocks));
-
-    // expect(await this.blockDayStats.connect(this.signers.admin).stats(dayAdded)).to.equal(this.blockDayStats.);
   });
 }

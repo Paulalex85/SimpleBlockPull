@@ -11,7 +11,6 @@ module.exports = {
             port: 8545,
             network_id: "1337",
             accounts: 5,
-            blockTime: 5
         }
     },
     compilers: {

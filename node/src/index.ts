@@ -1,4 +1,4 @@
-import { Contract, ethers } from 'ethers';
+import { BigNumber, Contract, ethers } from 'ethers';
 import { Client } from 'pg';
 import BlockDayStats from './contracts/BlockDayStats.json';
 
@@ -15,6 +15,11 @@ const privateKey = '8c8917fb4bc2cc214482a005f4905cfdafb3a572d43596b59dfead0d4b95
 const client: Client = new Client(
     process.env.DATABASE_URL,
 );
+
+interface StatData {
+    totalGasFees: BigNumber;
+    numberBlocks: BigNumber;
+}
 
 net.createServer(() => {
 }).listen(3000, function() {
@@ -65,14 +70,16 @@ function saveBlocksOfDay(dayToSave: Date, sqlClient: Client, contract: Contract)
             .then((res) => {
                 sumGas = res.rows[0].sum_gas;
                 nbBlocks = res.rows[0].total_block;
-                console.log(sumGas);
-                console.log(nbBlocks);
             })
             .then(() => {
                 contract.addDailyStat(dayStringFormat, sumGas, nbBlocks)
                     .then(
                         (tx: any) => {
-                            console.log(tx);
+                            contract.getStat(dayStringFormat).then((statResult: StatData) => {
+                                console.log('Stat for day : ' + dayStringFormat);
+                                console.log('Gas : ' + statResult.totalGasFees.toString());
+                                console.log('Blocks : ' + statResult.numberBlocks.toString());
+                            });
                         },
                         (e: any) => {
                             console.log('Unable to send the transaction', e);

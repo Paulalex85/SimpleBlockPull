@@ -6,7 +6,6 @@
 cd contracts
 yarn install
 yarn compile
-yarn typechain
 yarn test
 ```
 

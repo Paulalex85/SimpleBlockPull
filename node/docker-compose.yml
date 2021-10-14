@@ -13,6 +13,8 @@ services:
       PORT: 4000
     ports:
       - "4000:4000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
   db:
     container_name: postgres
     image: postgres:10.4

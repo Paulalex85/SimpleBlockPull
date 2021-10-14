@@ -4,7 +4,7 @@ require('dotenv').config()
 module.exports = {
     // See <http://truffleframework.com/docs/advanced/configuration>
     // to customize your Truffle configuration!
-    contracts_build_directory: path.join(__dirname, "../node/contracts"),
+    contracts_build_directory: path.join(__dirname, "../node/src/contracts"),
     networks: {
         develop: {
             host: "127.0.0.1",
